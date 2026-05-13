@@ -80,7 +80,7 @@ export const articleType = defineType({
       title: "Categories",
       type: "array",
       of: [defineArrayMember({ type: "reference", to: [{ type: "category" }] })],
-      validation: (rule) => rule.required().min(1).max(8),
+      validation: (rule) => rule.max(8),
     }),
     defineField({
       name: "isSponsored",

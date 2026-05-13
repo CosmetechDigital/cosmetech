@@ -73,7 +73,7 @@ export function getNewsletterTopicId(): string | undefined {
 }
 
 export function getContactRecipientEmail(): string | undefined {
-  const contactRecipient = getEnv("RESEND_CONTACT_TO_EMAIL");
+  const contactRecipient = getEnv("RESEND_CONTACT_TO_EMAIL") || getEnv("CONTACT_TO_EMAIL");
   return contactRecipient || undefined;
 }
 

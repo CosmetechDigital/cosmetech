@@ -39,6 +39,7 @@ export async function POST(req: Request) {
 
   const website = toTrimmedString(body.website);
   if (website) {
+    console.warn("[contact] Honeypot triggered; dropping submission.");
     return NextResponse.json({ ok: true });
   }
 
@@ -63,6 +64,7 @@ export async function POST(req: Request) {
 
   const recipientEmail = getContactRecipientEmail();
   if (!recipientEmail) {
+    console.error("[contact] Missing contact recipient env (RESEND_CONTACT_TO_EMAIL or CONTACT_TO_EMAIL).");
     return NextResponse.json(
       { ok: false, error: "Missing RESEND_CONTACT_TO_EMAIL" },
       { status: 500 }
@@ -71,6 +73,7 @@ export async function POST(req: Request) {
 
   const resendResult = createResendClient();
   if (!resendResult.ok) {
+    console.error("[contact] Failed to initialize Resend client:", resendResult.error);
     return NextResponse.json({ ok: false, error: resendResult.error }, { status: 500 });
   }
 
@@ -94,6 +97,7 @@ export async function POST(req: Request) {
   });
 
   if (error) {
+    console.error("[contact] Resend email send failed:", error);
     return NextResponse.json({ ok: false, error: "Failed to send message" }, { status: 502 });
   }
 
