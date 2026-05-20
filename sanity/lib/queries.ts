@@ -13,6 +13,25 @@ const imageFields = `{
 	}
 }`;
 
+const bodyWithImages = `[]{
+	...,
+	_type == "image" => {
+		...,
+		asset->{
+			_id,
+			url,
+			metadata {
+				lqip,
+				dimensions {
+					width,
+					height,
+					aspectRatio
+				}
+			}
+		}
+	}
+}`;
+
 const seoFields = `{
 	title,
 	description,
@@ -153,8 +172,8 @@ export const eventsPageQuery = `*[_type == "eventsPage"][0]{
 
 export const aboutPageQuery = `*[_type == "aboutPage"][0]{
 	_id,
-	cosmetechBody,
-	fourthWaveBody,
+	"cosmetechBody": cosmetechBody${bodyWithImages},
+	"fourthWaveBody": fourthWaveBody${bodyWithImages},
 	seo${seoFields}
 }`;
 
@@ -182,14 +201,14 @@ export const faqPageQuery = `*[_type == "faqPage"][0]{
 export const privacyPolicyPageQuery = `*[_type == "privacyPolicyPage"][0]{
 	_id,
 	pageTitle,
-	body,
+	"body": body${bodyWithImages},
 	seo${seoFields}
 }`;
 
 export const termsPageQuery = `*[_type == "termsPage"][0]{
 	_id,
 	pageTitle,
-	body,
+	"body": body${bodyWithImages},
 	seo${seoFields}
 }`;
 
@@ -226,7 +245,7 @@ export const articleBySlugQuery = `*[_type == "article" && slug.current == $slug
 	"categories": categories[]->${categoryFields},
 	"categoryRefs": categories[]._ref,
 	"plainText": pt::text(body),
-	body,
+	"body": body${bodyWithImages},
 	"relatedArticles": relatedArticles[]->${articleCardProjection},
 	seo${seoFields}
 }`;
@@ -246,7 +265,7 @@ export const eventBySlugQuery = `*[_type == "event" && slug.current == $slug][0]
 	eventTags,
 	isSponsored,
 	sponsoredMeta${sponsoredMetaFields},
-	body,
+	"body": body${bodyWithImages},
 	agenda[]${agendaFields},
 	"relatedEvents": relatedEvents[]->${eventCardProjection},
 	seo${seoFields}
