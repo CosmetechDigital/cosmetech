@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 const secret = process.env.SANITY_REVALIDATE_SECRET;
@@ -74,8 +74,8 @@ export async function POST(req: Request) {
       paths.push("/terms");
       break;
     case "siteSettings":
-      revalidatePath("/", "layout");
-      return NextResponse.json({ ok: true, revalidated: ["/ (layout)"] });
+      revalidateTag("site-settings");
+      return NextResponse.json({ ok: true, revalidated: ["site-settings"] });
     default:
       revalidatePath("/", "layout");
       return NextResponse.json({ ok: true, revalidated: ["/ (layout)"] });

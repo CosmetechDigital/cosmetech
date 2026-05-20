@@ -123,7 +123,12 @@ const applyAdvertisementSlots = (
   return next.filter((item): item is ContentCard => Boolean(item));
 };
 
-export const getSiteSettings = async () => client.fetch<SiteSettings | null>(siteSettingsQuery);
+export const getSiteSettings = async () =>
+  client.fetch<SiteSettings | null>(
+    siteSettingsQuery,
+    {},
+    { next: { tags: ["site-settings"], revalidate: 300 } }
+  );
 
 export const getHomePageData = async () => {
   const homePage = await client.fetch<RawHomePageDocument | null>(homePageQuery);
