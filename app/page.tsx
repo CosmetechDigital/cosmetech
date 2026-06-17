@@ -23,10 +23,10 @@ export default async function Home() {
   const [data, categories] = await Promise.all([getHomePageData(), getCategories()]);
 
   const allSlides = (data?.carouselItems ?? []).filter(Boolean);
-  const alternateSlides = allSlides.slice(3, 6);
+  const alternateSlides = allSlides.slice(3, 8);
   const carouselSlides = (
-    alternateSlides.length >= 3 ? alternateSlides : allSlides.slice(0, 3)
-  ).slice(0, 3);
+    alternateSlides.length >= 3 ? alternateSlides : allSlides.slice(0, 5)
+  ).slice(0, 5);
   const latestArticles = (data?.latestItems ?? []).filter(Boolean).map(toContentCardData);
   const popularArticles = (data?.popularItems ?? []).filter(Boolean).map(toContentCardData);
   const sponsoredArticles = (data?.sponsoredItems ?? []).filter(Boolean).map(toContentCardData);
