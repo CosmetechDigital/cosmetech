@@ -78,7 +78,21 @@ export function getContactRecipientEmail(): string | undefined {
 }
 
 export function isLikelyDuplicateContactError(error: unknown): boolean {
-  const normalized = JSON.stringify(error).toLowerCase();
+  if (!error || typeof error !== "object") return false;
+
+  const typedError = error as {
+    message?: unknown;
+    name?: unknown;
+    statusCode?: unknown;
+  };
+
+  if (typedError.statusCode === 409) return true;
+
+  const normalized = [typedError.name, typedError.message]
+    .filter((value): value is string => typeof value === "string")
+    .join(" ")
+    .toLowerCase();
+
   return (
     normalized.includes("already exists") ||
     normalized.includes("duplicate") ||
