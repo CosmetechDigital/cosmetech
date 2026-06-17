@@ -74,7 +74,7 @@ export async function POST(req: Request) {
       paths.push("/terms");
       break;
     case "siteSettings":
-      revalidateTag("site-settings");
+      revalidateTag("site-settings", "max");
       return NextResponse.json({ ok: true, revalidated: ["site-settings"] });
     default:
       revalidatePath("/", "layout");
