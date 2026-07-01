@@ -6,7 +6,7 @@ Next.js + Sanity publication site.
 
 1. Copy `.env.example` into `.env.local`.
 2. Add required tokens and keys.
-3. Start local dev,
+3. Start local dev:
 
 ```bash
 npm install
